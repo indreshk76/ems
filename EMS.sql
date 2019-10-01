@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Sep 27, 2019 at 07:01 PM
+-- Generation Time: Oct 01, 2019 at 07:14 PM
 -- Server version: 5.7.27-0ubuntu0.16.04.1
 -- PHP Version: 7.0.33-11+ubuntu16.04.1+deb.sury.org+1
 
@@ -23,14 +23,28 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `customers`
+--
+
+CREATE TABLE `customers` (
+  `id` int(11) NOT NULL,
+  `full_name` varchar(100) NOT NULL,
+  `mobile_number` int(10) NOT NULL,
+  `pin_code` int(5) NOT NULL,
+  `address` text NOT NULL,
+  `created` datetime DEFAULT NULL,
+  `modified` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `customer_complaints`
 --
 
 CREATE TABLE `customer_complaints` (
   `id` int(11) NOT NULL,
-  `mobile_number` int(10) NOT NULL,
-  `pin_code` int(5) NOT NULL,
-  `address` text NOT NULL,
+  `customer_id` int(11) NOT NULL,
   `problem` text NOT NULL,
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
@@ -76,10 +90,17 @@ CREATE TABLE `users` (
 --
 
 --
+-- Indexes for table `customers`
+--
+ALTER TABLE `customers`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `customer_complaints`
 --
 ALTER TABLE `customer_complaints`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `customer_id` (`customer_id`);
 
 --
 -- Indexes for table `roles`
@@ -99,6 +120,11 @@ ALTER TABLE `users`
 --
 
 --
+-- AUTO_INCREMENT for table `customers`
+--
+ALTER TABLE `customers`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
 -- AUTO_INCREMENT for table `customer_complaints`
 --
 ALTER TABLE `customer_complaints`
@@ -116,6 +142,12 @@ ALTER TABLE `users`
 --
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `customer_complaints`
+--
+ALTER TABLE `customer_complaints`
+  ADD CONSTRAINT `customer_complaints_ibfk_1` FOREIGN KEY (`customer_id`) REFERENCES `customers` (`id`);
 
 --
 -- Constraints for table `users`
