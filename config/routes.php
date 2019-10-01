@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Routes configuration
  *
@@ -67,10 +68,9 @@ Router::scope('/', function (RouteBuilder $routes) {
     Router::prefix('admin', function ($routes) {
         // Because you are in the admin scope,
         // you do not need to include the /admin prefix
-        // or the admin route element.
         $routes->connect('/', ['controller' => 'Users', 'action' => 'login']);
-    });    
-    
+    });
+
     /**
      * ...and connect the rest of 'Pages' controller's URLs.
      */
