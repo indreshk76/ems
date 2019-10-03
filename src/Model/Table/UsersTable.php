@@ -9,7 +9,7 @@ use Cake\Validation\Validator;
 /**
  * Users Model
  *
- * @property &\Cake\ORM\Association\BelongsTo $Roles
+ * @property \App\Model\Table\RolesTable&\Cake\ORM\Association\BelongsTo $Roles
  *
  * @method \App\Model\Entity\User get($primaryKey, $options = [])
  * @method \App\Model\Entity\User newEntity($data = null, array $options = [])
@@ -65,6 +65,11 @@ class UsersTable extends Table
             ->notEmptyString('username');
 
         $validator
+            ->email('email')
+            ->requirePresence('email', 'create')
+            ->notEmptyString('email');
+
+        $validator
             ->scalar('password')
             ->maxLength('password', 60)
             ->requirePresence('password', 'create')
@@ -83,6 +88,7 @@ class UsersTable extends Table
     public function buildRules(RulesChecker $rules)
     {
         $rules->add($rules->isUnique(['username']));
+        $rules->add($rules->isUnique(['email']));
         $rules->add($rules->existsIn(['role_id'], 'Roles'));
 
         return $rules;
